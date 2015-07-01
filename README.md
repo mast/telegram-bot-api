@@ -2,7 +2,7 @@
 
 Node.js module for Telegram Bot API (https://core.telegram.org/bots/api).
 You can use it simply as an API if you want to implement logic by yourself, or
-you can enable updates retrieving and receive messages sent to your bot in a callback
+you can enable retrieving of updates and get messages sent to your bot in a callback
 
 ## Installation
 
@@ -71,6 +71,33 @@ api.on('message', function(message)
 });
 ```
 
+## Example (send photo)
+
+```
+var telegram = require('telegram-bot-api');
+
+var api = new telegram({
+	token: '<PUT YOUR TOKEN HERE>',
+});
+
+api.sendPhoto({
+	chat_id: <YOUR CHAT ID>,
+	caption: 'This is my test image',
+
+	// you can also send file_id here as string (as described in telegram bot api documentation)
+	photo: '/path/to/file/test.jpg'
+}, function(err, data)
+{
+	console.log(err);
+	console.log(util.inspect(data, false, null));
+});
+```
+
+## Other examples
+
+Please refer to `/examples` folder of repository.
+
+
 ## API configuration
 
 You should pass configuration object to API constructor, which have following fields.
@@ -79,10 +106,11 @@ You should pass configuration object to API constructor, which have following fi
 |---|---|---|
 | token | Mandatory | Telegram access token (received from BotFather) |
 | http_proxy | Optional | This object is optional. Use it in case if you want API to connect through proxy |
-| http_proxy.host | Optional | Proxy hostname |
-| http_proxy.port | Optional | Proxy port |
+| http_proxy.host | Mandatory | Proxy hostname |
+| http_proxy.port | Mandatory | Proxy port |
 | http_proxy.user | Optional | Username (authentication) |
 | http_proxy.password | Optional | Password (authentication) |
+| http_proxy.https | Optional | Pass `true` if you want `https` used as a protocol. Default `false` |
 | updates | Optional | Pass it to configure how API will handle incoming messages to your bot |
 | updates.enabled | Optional | `true` – API will listen for messages and provide you with callback. `false` – API will not listen for messages, care about it by yourself. Default `false` |
 | updates.get_interval | Optional | This number of milliseconds API will poll Telegram servers for messages. Default `1000` |
