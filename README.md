@@ -65,11 +65,101 @@ var api = new telegram({
     }
 });
 
-api.on('message', function(message)
-{
+api.on('message', function(message) {
     console.log(message);
 });
 ```
+
+## Retrieve commands sent to your bot
+
+```
+api.on('command.dice', function(message) {
+    // For the command /dice 6, message will be equal to 6
+    console.log(message);
+});
+```
+
+This command is subject of the same limitation of **message** event
+
+## Retrieve the reply for a specific message
+
+```
+api.sendMessage({
+    chat_id: chat,
+    text: "Who is the the Father of Luke Skywalker ?",
+    reply_markup : JSON.stringify({
+        keyboard : [["Obi-Wan Kenobi"], ["Chewbacca"], ["Dark Vador"], ["Han Solo"], ["Georges Lucas"]]
+    })
+}, function(err, message) {
+    // Don't forget to handle error
+    api.on("reply." + message.message_id, function(reply) {
+        if (reply.text == "Dark Vador") {
+            api.sendMessage({
+                chat_id: reply.chat.id,
+                reply_to_message_id: reply.message_id
+                text: "Good answer !",
+                reply_markup : JSON.stringify({
+                    hide_keyboard: true
+                })
+            });
+        } else {
+            api.sendMessage({
+                chat_id: reply.chat.id,
+                reply_to_message_id: reply.message_id
+                text: "Sorry, try again."
+            });
+        }
+    });
+});
+```
+
+This command is subject of the same limitation of **message** event
+
+## Be notify when a user join a chat group
+
+```
+api.on('user.join', function(message) {
+    api.sendMessage({
+        chat_id: message.chat.id
+        text: "Welcome to " + message.new_chat_participant.first_name
+    });
+});
+```
+
+This command is subject of the same limitation of **message** event
+
+## Be notify when a user leave a chat group
+
+```
+api.on('user.leave', function(message) {
+    api.sendMessage({
+        chat_id: message.chat.id
+        text: "Goodbye to " + message.left_chat_participant.first_name
+    });
+});
+```
+
+This command is subject of the same limitation of **message** event
+
+## Be notify when the bot join a chat group
+
+```
+api.on('bot.join', function(message) {
+    registerAlertForChat(message.chat.id);
+});
+```
+
+This command is subject of the same limitation of **message** event
+
+## Be notify when the bot leave a chat group
+
+```
+api.on('bot.leave', function(message) {
+    unregisterAlertForChat(message.chat.id);
+});
+```
+
+This command is subject of the same limitation of **message** event
 
 ## Example (send photo)
 
