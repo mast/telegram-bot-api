@@ -21,11 +21,13 @@ var api = new telegram({
         token: '<PUT YOUR TOKEN HERE>'
 });
 
-api.getMe(function(err, data)
-{
-    console.log(err);
-    console.log(data);
-});
+api.getMe()
+    .then(function(msg){
+        console.log(msg);
+    })
+    .catch(function(err){
+        console.log(err);
+    });
 ```
 
 ## Supported methods
@@ -81,16 +83,19 @@ var api = new telegram({
 });
 
 api.sendPhoto({
-	chat_id: <YOUR CHAT ID>,
-	caption: 'This is my test image',
+    chat_id: '<YOUR CHAT ID>',
+    caption: 'This is my test image',
 
-	// you can also send file_id here as string (as described in telegram bot api documentation)
-	photo: '/path/to/file/test.jpg'
-}, function(err, data)
-{
-	console.log(err);
-	console.log(util.inspect(data, false, null));
-});
+    // you can also send file_id here as string (as described in telegram bot api documentation)
+    photo: '/path/to/file/test.jpg'
+})
+    .then(function (message) {
+        //console.log(message);
+        console.log(util.inspect(message, false, null));
+    })
+    .catch(function (err) {
+        console.log(err);
+    });
 ```
 
 ## Other examples

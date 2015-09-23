@@ -1,11 +1,13 @@
 var telegram = require('telegram-bot-api');
-
 var api = new telegram({
-	token: '<PUT YOUR TOKEN HERE>'
+    token: '<YOUR TOKEN>'
 });
 
-api.getMe(function(err, data)
-{
-    console.log(err);
-    console.log(data);
-});
+api.getMe()
+    .then(function (msg) {
+        console.log(msg);
+    })
+    .catch(function (err) {
+        console.log(err);
+    });
+

@@ -3,7 +3,7 @@
     "description": "Node.js module for Telegram Bot API (https://core.telegram.org/bots/api)",
     "version": "0.3.2",
     "repository": {
-        "type":"git",
+        "type": "git",
         "url": "https://github.com/mast/telegram-bot-api.git"
     },
     "main": "./lib/telegram-bot.js",
@@ -16,9 +16,15 @@
         "api"
     ],
     "author": "Max Stepanov <mast@imast.ru>",
+    "contributors": [{
+        "name": "Stanislav Gumeniuk",
+        "email": "i@vigo.su"
+    }],
     "license": "MIT",
     "dependencies": {
         "extend": "2.0.1",
-        "request": "2.58.0"
+        "promise": "^7.0.4",
+        "request-promise": "^0.4.3",
+        "util": "^0.10.3"
     }
 }
