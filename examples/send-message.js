@@ -6,11 +6,15 @@ var api = new telegram({
 });
 
 api.sendMessage({
-	chat_id: <YOUR CHAT ID>,
+	chat_id: '<YOUR CHAT ID>',
 	text: 'This is my kind message to you'
-}, function(err, data)
-{
-	console.log(err);
-	console.log(util.inspect(data, false, null));
-});
+})
+	.then(function (message) {
+		console.log(util.inspect(message, false, null));
+	})
+	.catch(function (err) {
+		console.log(err);
+	});
+
+
 
