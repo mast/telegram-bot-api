@@ -4,6 +4,9 @@ Node.js module for Telegram Bot API (https://core.telegram.org/bots/api).
 You can use it simply as an API if you want to implement logic by yourself, or
 you can enable retrieving of updates and get messages sent to your bot in a callback
 
+IMPORTANT: In version 1.0.0. promises are implemented in backward compatible way, 
+i.e. old code (with callbacks) should also work with new version of the API
+
 ## Installation
 
 You can use npm package to get module installed
@@ -21,10 +24,14 @@ var api = new telegram({
         token: '<PUT YOUR TOKEN HERE>'
 });
 
-api.getMe(function(err, data)
+api.getMe()
+.then(function(data)
 {
-    console.log(err);
     console.log(data);
+})
+.catch(function(err)
+{
+	console.log(err);
 });
 ```
 
@@ -89,9 +96,9 @@ api.sendPhoto({
 
 	// you can also send file_id here as string (as described in telegram bot api documentation)
 	photo: '/path/to/file/test.jpg'
-}, function(err, data)
+})
+.then(function(data)
 {
-	console.log(err);
 	console.log(util.inspect(data, false, null));
 });
 ```

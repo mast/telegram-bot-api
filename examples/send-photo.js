@@ -9,8 +9,12 @@ api.sendPhoto({
 
 	// you can also send file_id here as string (as described in telegram bot api documentation)
 	photo: '/path/to/file/test.jpg'
-}, function(err, data)
+})
+.then(function(data)
+{
+	console.log(util.inspect(data, false, null));
+})
+.catch(function(err)
 {
 	console.log(err);
-	console.log(util.inspect(data, false, null));
 });

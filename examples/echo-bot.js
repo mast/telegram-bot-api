@@ -18,9 +18,13 @@ api.on('message', function(message)
 	api.sendMessage({
 		chat_id: message.chat.id,
 		text: message.text ? message.text : 'This message doesn\'t contain text :('
-	}, function(err, message)
+	})
+	.then(function(message)
+	{
+		console.log(message);
+	}
+	.catch(function(err)
 	{
 		console.log(err);
-		console.log(message);
 	});
 });

@@ -4,8 +4,12 @@ var api = new telegram({
 	token: '<PUT YOUR TOKEN HERE>'
 });
 
-api.getMe(function(err, data)
+api.getMe()
+.then(function(data)
 {
-    console.log(err);
     console.log(data);
+})
+.catch(function(err)
+{
+	console.log(err);
 });
