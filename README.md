@@ -41,6 +41,7 @@ sendMessage
 forwardMessage
 sendPhoto
 sendAudio
+sendVoice
 sendDocument
 sendSticker
 sendVideo
