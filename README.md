@@ -49,6 +49,8 @@ sendChatAction
 getUserProfilePhotos
 getUpdates
 setWebhook
+getFile
+answerInlineQuery
 ```
 
 ## Retrieve messages sent to your bot
