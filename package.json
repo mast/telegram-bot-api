@@ -16,6 +16,16 @@
         "api"
     ],
     "author": "Max Stepanov <mast@imast.ru>",
+    "contributors": [{
+        "name": "Max Stepanov",
+        "email": "mast@imast.ru"
+    }, {
+        "name": "Stanislav Gumeniuk",
+        "email": "i@vigo.su"
+    }, {
+        "name": "Ali Mihandoost",
+        "email": "i@ali.md"
+    }],
     "license": "MIT",
     "dependencies": {
         "extend": "2.0.1",
