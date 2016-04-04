@@ -22,7 +22,7 @@ api.on('message', function(message)
 	.then(function(message)
 	{
 		console.log(message);
-	}
+	})
 	.catch(function(err)
 	{
 		console.log(err);
