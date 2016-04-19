@@ -53,12 +53,20 @@ sendDocument
 sendSticker
 sendVideo
 sendLocation
+sendVenue
+sendContact
 sendChatAction
 getUserProfilePhotos
 getUpdates
 setWebhook
 getFile
 answerInlineQuery
+answerCallbackQuery
+editMessageText
+editMessageCaption
+editMessageReplyMarkup
+kickChatMember
+unbanChatMember
 ```
 
 ## Retrieve messages sent to your bot
@@ -77,8 +85,36 @@ var api = new telegram({
 
 api.on('message', function(message)
 {
+	// Received text message
     console.log(message);
 });
+
+api.on('inline.query', function(message)
+{
+	// Received inline query
+    console.log(message);
+});
+
+api.on('inline.result', function(message)
+{
+	// Received chosen inline result
+    console.log(message);
+});
+
+api.on('inline.callback.query', function(message)
+{
+	// New incoming callback query
+    console.log(message);
+});
+
+api.on('update', function(message)
+{
+	// Generic update object
+	// Subscribe on it in case if you want to handle all possible
+	// event types in one callback
+    console.log(message);
+});
+
 ```
 
 ## Example (send photo)
