@@ -1,7 +1,10 @@
 var telegram = require('telegram-bot-api');
 
 var api = new telegram({
-    token: '<PUT YOUR TOKEN HERE>'
+    token: '<PUT YOUR TOKEN HERE>',
+    updates: {
+        enabled: true
+    }
 });
 
 //Create your inline keyboard markup
