@@ -16,7 +16,7 @@ var inlineKeyboard = {
                     callback_data: '1-1'
                 },
                 {
-                    text: 'Row 1 Cell 1-2',
+                    text: 'Row 1 Cell 2',
                     callback_data: '1-2'
                 }
             ],
