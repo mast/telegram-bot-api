@@ -1,35 +1,40 @@
 {
-    "name": "telegram-bot-api",
-    "description": "Node.js module for Telegram Bot API (https://core.telegram.org/bots/api)",
-    "version": "1.1.0",
-    "repository": {
-        "type":"git",
-        "url": "https://github.com/mast/telegram-bot-api.git"
+  "name": "telegram-bot-api",
+  "description": "Node.js module for Telegram Bot API (https://core.telegram.org/bots/api)",
+  "version": "1.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mast/telegram-bot-api.git"
+  },
+  "main": "./lib/telegram-bot.js",
+  "keywords": [
+    "telegram",
+    "nodejs",
+    "node.js",
+    "telegram bot",
+    "bot",
+    "api"
+  ],
+  "author": "Max Stepanov <mast@imast.ru>",
+  "contributors": [
+    {
+      "name": "Max Stepanov",
+      "email": "mast@imast.ru"
     },
-    "main": "./lib/telegram-bot.js",
-    "keywords": [
-        "telegram",
-        "nodejs",
-        "node.js",
-        "telegram bot",
-        "bot",
-        "api"
-    ],
-    "author": "Max Stepanov <mast@imast.ru>",
-    "contributors": [{
-        "name": "Max Stepanov",
-        "email": "mast@imast.ru"
-    }, {
-        "name": "Stanislav Gumeniuk",
-        "email": "i@vigo.su"
-    }, {
-        "name": "Ali Mihandoost",
-        "email": "i@ali.md"
-    }],
-    "license": "MIT",
-    "dependencies": {
-        "extend": "2.0.1",
-        "request-promise": "1.0.2",
-        "promise": "7.1.1"
+    {
+      "name": "Stanislav Gumeniuk",
+      "email": "i@vigo.su"
+    },
+    {
+      "name": "Ali Mihandoost",
+      "email": "i@ali.md"
     }
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.4.0",
+    "extend": "2.0.1",
+    "promise": "7.1.1",
+    "request-promise": "1.0.2"
+  }
 }
