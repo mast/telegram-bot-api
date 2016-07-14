@@ -107,6 +107,12 @@ api.on('inline.callback.query', function(message)
     console.log(message);
 });
 
+api.on('edited.message', function(message)
+{
+	// Message that was edited
+    console.log(message);
+});
+
 api.on('update', function(message)
 {
 	// Generic update object
