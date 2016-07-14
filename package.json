@@ -34,7 +34,6 @@
   "dependencies": {
     "bluebird": "^3.4.0",
     "extend": "2.0.1",
-    "promise": "7.1.1",
     "request-promise": "1.0.2"
   }
 }
