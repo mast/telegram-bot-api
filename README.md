@@ -67,6 +67,11 @@ editMessageCaption
 editMessageReplyMarkup
 kickChatMember
 unbanChatMember
+leaveChat
+getChat
+getChatAdministrators
+getChatMembersCount
+getChatMember
 ```
 
 ## Retrieve messages sent to your bot
