@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/mast/telegram-bot-api.svg?branch=master)](https://travis-ci.org/mast/telegram-bot-api)
+[![npm version](https://badge.fury.io/js/telegram-bot-api.svg)](https://badge.fury.io/js/telegram-bot-api)
+
 ## Introduction
 
 Node.js module for Telegram Bot API (https://core.telegram.org/bots/api).
