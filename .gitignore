@@ -2,3 +2,4 @@ node_modules
 *.log
 test-old
 .env
+package-lock.json
