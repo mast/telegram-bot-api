@@ -38,6 +38,20 @@ api.getMe()
 });
 ```
 
+## TypeScript support
+
+This package comes with type declarations included and is ready to be used in TypeScript projects too:
+
+```typescript
+import TelegramBotApi from 'telegram-bot-api';
+
+let api = new TelegramBotApi({
+        token: '<PUT YOUR TOKEN HERE>'
+});
+```
+
+Supporting editors will then show available autocompletions and type annotations and type check your code.
+
 ## Supported methods
 
 For method parameters and description, please refer to official documentation
