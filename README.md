@@ -50,6 +50,7 @@ getMe
 sendMessage
 forwardMessage
 sendPhoto
+SendPoll
 sendAudio
 sendVoice
 sendDocument
