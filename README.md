@@ -72,6 +72,7 @@ editMessageReplyMarkup
 kickChatMember
 unbanChatMember
 exportChatInviteLink
+setChatTitle
 leaveChat
 getChat
 getChatAdministrators
