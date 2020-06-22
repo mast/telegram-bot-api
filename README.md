@@ -133,6 +133,27 @@ api.on('update', function(message)
 });
 
 ```
+### Error messages
+
+Also you can catch and handle errors
+
+```
+api.on('polling_error', function(error)
+{
+	// Handle error
+});
+
+api.on('parse_error', function(error)
+{
+	// Handle error
+});
+
+api.on('webhook_error', function(error)
+{
+	// Handle error
+});
+
+```
 
 ## Example (send photo)
 
@@ -178,6 +199,7 @@ You should pass configuration object to API constructor, which have following fi
 | updates.enabled | Optional | `true` – API will listen for messages and provide you with callback. `false` – API will not listen for messages, care about it by yourself. Default `false` |
 | updates.get_interval | Optional | This number of milliseconds API will poll Telegram servers for messages. Default `1000` |
 | updates.pooling_timeout | Optional | This number of milliseconds API will keep connection with Telegram servers alive. Default `0` |
+| logger | Optional | Logger. Default `console` |
 
 Example of configuration object
 
