@@ -1,5 +1,7 @@
-[![Build Status](https://travis-ci.org/mast/telegram-bot-api.svg?branch=master)](https://travis-ci.org/mast/telegram-bot-api)
+![Build Status](https://github.com/mast/telegram-bot-api/workflows/Build/badge.svg)
 [![npm version](https://badge.fury.io/js/telegram-bot-api.svg)](https://badge.fury.io/js/telegram-bot-api)
+
+# UNDER DEVELOPMENT
 
 ## Introduction
 
@@ -7,7 +9,7 @@ Node.js module for Telegram Bot API (https://core.telegram.org/bots/api).
 You can use it simply as an API if you want to implement logic by yourself, or
 you can enable retrieving of updates and get messages sent to your bot in a callback
 
-IMPORTANT: In version 1.0.0. promises are implemented in backward compatible way, 
+IMPORTANT: In version 1.0.0. promises are implemented in backward compatible way,
 i.e. old code (with callbacks) should also work with new version of the API
 
 ## Installation
