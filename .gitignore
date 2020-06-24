@@ -3,3 +3,5 @@ node_modules
 test-old
 .env
 package-lock.json
+coverage
+test/functional
