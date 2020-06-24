@@ -28,7 +28,7 @@ jobs:
     - run: npm run test
     - run: npm run coverage
     - name: Save coverage report
-        uses: actions/upload-artifact@v1
-        with:
-          name: Coverage Report
-          path: coverage/lcov-report/index.html
+      uses: actions/upload-artifact@v1
+      with:
+        name: Coverage Report
+        path: coverage/lcov-report/index.html
