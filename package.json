@@ -6,7 +6,7 @@
         "type": "git",
         "url": "https://github.com/mast/telegram-bot-api.git"
     },
-    "main": "./lib/telegram-bot.js",
+    "main": "./lib/index.js",
     "keywords": [
         "telegram",
         "nodejs",
