@@ -1,16 +1,15 @@
 ![Build Status](https://github.com/mast/telegram-bot-api/workflows/Build/badge.svg)
 [![npm version](https://badge.fury.io/js/telegram-bot-api.svg)](https://badge.fury.io/js/telegram-bot-api)
 
-# UNDER DEVELOPMENT
+# Telegram Bot API
 
-## Introduction
+This is first Node.js library for Telegram Bot API.
 
-Node.js module for Telegram Bot API (https://core.telegram.org/bots/api).
-You can use it simply as an API if you want to implement logic by yourself, or
-you can enable retrieving of updates and get messages sent to your bot in a callback
+This is not a framework! You will not get router or some advanced logic to simplify your bot development. But it will give you simple function to receive messages from your bot users and send them replies.
 
-IMPORTANT: In version 1.0.0. promises are implemented in backward compatible way,
-i.e. old code (with callbacks) should also work with new version of the API
+Library doesn't validate any parameters, whatever you send to the library will be sent to Telegram servers. That means you will benefit of new parameters added by Telegram developers at first day, since update of library will not be required.
+
+Please refer to https://core.telegram.org/bots/api for API functions and parameters description.
 
 ## Installation
 
@@ -23,145 +22,136 @@ npm install telegram-bot-api
 ## Example (simple API usage)
 
 ```
-var telegram = require('telegram-bot-api');
+const TG = require('telegram-bot-api')
 
-var api = new telegram({
-        token: '<PUT YOUR TOKEN HERE>'
-});
+const api = new TG({
+    token: <PUT YOUR TOKEN HERE>
+})
 
 api.getMe()
-.then(function(data)
-{
-    console.log(data);
-})
-.catch(function(err)
-{
-	console.log(err);
-});
+.then(console.log)
+.catch(console.err)
 ```
+
+Please refer to more examples in `examples` folder.
 
 ## Supported methods
 
 For method parameters and description, please refer to official documentation
 https://core.telegram.org/bots/api
 
-This module supports following methods so far:
+We try to add support of newly added methods as soon as possible, so you could assume that all methods are supported by library.
+
+Signature of API methods for all methods is the same. Method name matches method name from official API documentation, method accepts 1 parameter as JS object, and returns promise. Resolved promise will contain decoded result object returned by Telegram.
+
+JS object that you pass to API method should be composed in accordance with format accepted by the method. `String`, `Boolean`, `Number` and `stream.Readable` fields of this object will not be encoded by the library, all other types of fields will be encoded as JSON-string.
+
+`stream.Readable` fields can be used for sending files to API and will be uploaded properly.
+
+For example, to send picture, you can do the following:
 
 ```
-getMe
-sendMessage
-forwardMessage
-sendPhoto
-sendPoll
-sendAudio
-sendVoice
-sendDocument
-sendSticker
-sendVideo
-sendLocation
-sendVenue
-sendContact
-sendChatAction
-getUserProfilePhotos
-getUpdates
-setWebhook
-getFile
-answerInlineQuery
-answerCallbackQuery
-editMessageText
-editMessageCaption
-editMessageReplyMarkup
-kickChatMember
-unbanChatMember
-exportChatInviteLink
-setChatTitle
-leaveChat
-getChat
-getChatAdministrators
-getChatMembersCount
-getChatMember
-```
-
-## Retrieve messages sent to your bot
-
-You can force this API to retrieve messages sent to your Telegram Bot. API will emit *message* event as soon as some message is received by your bot. Please note, that you need explicitly configure this behaviour, as it is disabled by default.
-
-```
-var telegram = require('telegram-bot-api');
-
-var api = new telegram({
-        token: '<PUT YOUR TOKEN HERE>',
-        updates: {
-        	enabled: true
-    }
-});
-
-api.on('message', function(message)
-{
-	// Received text message
-    console.log(message);
-});
-
-api.on('inline.query', function(message)
-{
-	// Received inline query
-    console.log(message);
-});
-
-api.on('inline.result', function(message)
-{
-	// Received chosen inline result
-    console.log(message);
-});
-
-api.on('inline.callback.query', function(message)
-{
-	// New incoming callback query
-    console.log(message);
-});
-
-api.on('edited.message', function(message)
-{
-	// Message that was edited
-    console.log(message);
-});
-
-api.on('update', function(message)
-{
-	// Generic update object
-	// Subscribe on it in case if you want to handle all possible
-	// event types in one callback
-    console.log(message);
-});
-
-```
-
-## Example (send photo)
-
-```
-var telegram = require('telegram-bot-api');
-
-var api = new telegram({
-	token: '<PUT YOUR TOKEN HERE>',
-});
-
+// https://core.telegram.org/bots/api#sendphoto
+const fs = require('fs')
 api.sendPhoto({
-	chat_id: <YOUR CHAT ID>,
-	caption: 'This is my test image',
-
-	// you can also send file_id here as string (as described in telegram bot api documentation)
-	photo: '/path/to/file/test.jpg'
+    chat_id: chat_id,
+    caption: 'My cute picture',
+    photo: fs.createReadStream('picture.png')
 })
-.then(function(data)
-{
-	console.log(util.inspect(data, false, null));
-});
 ```
 
-## Other examples
+# Message providers
 
-Please refer to `/examples` folder of repository.
+In order to receive messages from your bot users, you need to configure and use so called message providers.
 
+The library currently supports two message providers: `GetUpdateMessageProvider` and `WebhookMessageProvider`.
+
+You can use message providers as shown here:
+
+```
+// Define your API object
+const api = new TG({
+    token: BOT_TOKEN
+})
+
+// Define your message provider
+const mp = new TG.GetUpdateMessageProvider()
+
+// Set message provider and start API
+api.setMessageProvider(mp)
+api.start()
+.then(() => {
+    console.log('API is started')
+})
+.catch(console.err)
+
+// Receive messages via event callback
+api.on('update', update => {
+
+    // update object is defined at
+    // https://core.telegram.org/bots/api#update
+    console.log(update)
+})
+```
+
+You can use method `api.stop()` to stop work of message provider.
+
+## GetUpdateMessageProvider
+
+This provider implements following method https://core.telegram.org/bots/api#getupdates
+
+You can pass following parameters to message provider constructor:
+
+```
+{
+    limit: <Max number of updates received via one call to Telegram servers>
+    timeout: <Timeout in seconds for long polling. Default: 60>
+    allowed_updates: <Array of strings. Default: []>
+}
+```
+
+Method `api.stop()` will stop provider from polling Telegram servers.
+
+## WebhookMessageProvider
+
+This provider implements following method https://core.telegram.org/bots/api#setwebhook
+
+For this method to work, you need to have public IP address on your server.
+
+You can pass following parameters to message provider constructor:
+
+```
+{
+    host: <IP address for web server. Default: 0.0.0.0>
+    port: <Port to listen to. Default: 8443>
+    url: <URL that will be registered at TG. Default: https://host:port>
+
+    publicKey: <String path to file with public key>
+    privateKey: <String path to file with private key>
+
+    allowed_updates: <Array of strings. Default: []>
+}
+```
+
+Method `api.stop()` will stop HTTP/s server and listening socket will be closed.
+
+Since Telegram requires you to use HTTPs for webhook, you can go with 2 options:
+
+### Configure reverse proxy
+
+You can configure HTTPs certificate on your reverse proxy, for example: `nginx`. See example at https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy
+
+In this case, don't pass `publicKey` and `privateKey` parameters to message provider constructor. Library will open regular HTTP server in this case. You can choose `host` and `port` for server to listen to. For security reasons it's recommended to use `127.0.0.1` as a `host`. You can select any `port` as you want. This host/port pair you will use for your reverse proxy configuration.
+
+You will have to set `url` parameter though to the one which is configured on your reverse proxy. Library will use it to send to Telegram in setWebhook method (this is done internally after you call `api.start()` method).
+
+## Deal with HTTPs inside provider
+
+If you don't want to use reverse proxy or deal with domain names, you can configure HTTPs to be used inside the library. Also Telegram works pretty well with self-signed certificates, so you don't even have to worry about purchasing your certificate.
+
+For generating your self-signed certificate you can follow the guide: https://core.telegram.org/bots/self-signed
+
+You can use your IP address during certificate generation. In this case `host` should be set to this IP address, and `port` should be set to one from the list 443, 80, 88, 8443. Those are the only port supported by Telegram servers. `url` parameter should not be set.
 
 ## API configuration
 
@@ -170,41 +160,85 @@ You should pass configuration object to API constructor, which have following fi
 | Param name | Mandatory? | Description |
 |---|---|---|
 | token | Mandatory | Telegram access token (received from BotFather) |
+| baseUrl | Optional | Base URL of Telegram servers (might be useful if you connect to proxied telegram instance in contries where Telegram is blocked. Default: https://api.telegram.org) |
 | http_proxy | Optional | This object is optional. Use it in case if you want API to connect through proxy |
 | http_proxy.host | Mandatory | Proxy hostname |
 | http_proxy.port | Mandatory | Proxy port |
 | http_proxy.user | Optional | Username (authentication) |
 | http_proxy.password | Optional | Password (authentication) |
 | http_proxy.https | Optional | Pass `true` if you want `https` used as a protocol. Default `false` |
-| updates | Optional | Pass it to configure how API will handle incoming messages to your bot |
-| updates.enabled | Optional | `true` – API will listen for messages and provide you with callback. `false` – API will not listen for messages, care about it by yourself. Default `false` |
-| updates.get_interval | Optional | This number of milliseconds API will poll Telegram servers for messages. Default `1000` |
-| updates.pooling_timeout | Optional | This number of milliseconds API will keep connection with Telegram servers alive. Default `0` |
 
 Example of configuration object
 
 ```
 {
-	token: '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11',
-	http_proxy: {
-		host: 'proxy.example.com',
-		port: 8080,
-		username: 'mylogin',
-		password: 'mypassword'
-	},
-	updates: {
-		enabled: true,
-		get_interval: 2000
-	}
+    token: '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11',
+    http_proxy: {
+        host: 'proxy.example.com',
+        port: 8080,
+        username: 'mylogin',
+        password: 'mypassword'
+    }
 }
 ```
 
+# For developers
 
-## License
+## Troubleshooting
+Library uses `debug` package for logging. No logs will be provided by default. You need to configure `DEBUG` environmental variable to enable logging on library.
+
+For example, logging one-liner looks like that:
+
+`DEBUG=telegram-bot-api* node mybot.js`
+
+For details, please refer to:
+https://github.com/visionmedia/debug#readme
+
+## Running tests
+
+Before submitting pull requests, please make sure that unit tests are passing. Also consider adding new test cases covering new functionality.
+
+```
+# Run unit tests
+npm run test
+
+> telegram-bot-api@2.0.0 test /Users/mast/git/telegram-bot-api
+> jest test
+
+ PASS  test/index.test.js
+ PASS  test/provider.webhook.test.js
+ PASS  test/api.methods.test.js
+ PASS  test/api.test.js
+ PASS  test/provider.getupdate.test.js
+
+Test Suites: 5 passed, 5 total
+Tests:       107 passed, 107 total
+Snapshots:   0 total
+Time:        4.678 s
+
+# Run coverage tests
+npm run coverage
+```
+
+Unit tests are created with https://jestjs.io.
+
+Github will run unit tests automatically for each pull request and forbid the merge if they fail.
+
+## Migration to 2.0
+
+2.0 introduced some backwards incompatible changes in APIs,
+which is easy to implement thought.
+
+* Message providers were introduced. Polling/webhook configuration was removed from API constructor and moved to separate classes.
+* By default library is not dealing with received messages anymore. You need to configure message provider and call `api.start()`
+* API object doesn't emit anything else, except `update` event, containing whole object https://core.telegram.org/bots/api#update. You should react on different types of events by yourself.
+* Some API calls were performing `JSON.stringify()` encoding on some specific parameters in prev library versions, which lead to confusion. In 2.0 library is performing encoding automatically when needed, you should just pass normal JS object as a parameter of API call.
+
+# License
 
 The MIT License (MIT)
 
-Copyright (c) 2015 Max Stepanov
+Copyright (c) 2015-2020 Max Stepanov
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -72,24 +72,37 @@ describe('Api configuration', () => {
 })
 
 describe('Api logic', () => {
-    test('start() without message provider', () => {
+    test('start() without message provider', (done) => {
         const api = new TG({token: '123'})
-        expect(() => {
-            api.start()
-        }).toThrowError('[telegram-bot-api]: Message provider is not set')
+        api.start()
+        .then(() => {
+            expect('Should not be called').not.toBeDefined()
+            done()
+        })
+        .catch(err => {
+            expect(err.toString()).toBe('Error: Message provider is not set')
+            done()
+        })
     })
 
-    test('stop() without message provider', () => {
+    test('stop() without message provider', (done) => {
         const api = new TG({token: '123'})
-        expect(() => {
-            api.stop()
-        }).toThrowError('[telegram-bot-api]: Message provider is not set')
+        api.stop()
+        .then(() => {
+            expect('Should not be called').not.toBeDefined()
+            done()
+        })
+        .catch(err => {
+            expect(err.toString()).toBe('Error: Message provider is not set')
+            done()
+        })
     })
 
     test('start() with message provider', () => {
         const api = new TG({token: '123'})
         const mp = new TG.GetUpdateMessageProvider()
         mp.start = jest.fn()
+        mp.start.mockResolvedValue(true)
         api.setMessageProvider(mp)
         api.start()
         expect(mp.start).toHaveBeenCalled()
@@ -99,6 +112,7 @@ describe('Api logic', () => {
         const api = new TG({token: '123'})
         const mp = new TG.GetUpdateMessageProvider()
         mp.stop = jest.fn()
+        mp.stop.mockResolvedValue(true)
         api.setMessageProvider(mp)
         api.stop()
         expect(mp.stop).toHaveBeenCalled()

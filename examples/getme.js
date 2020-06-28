@@ -1,15 +1,14 @@
-var telegram = require('telegram-bot-api');
+const TG = require('../lib/index')
 
-var api = new telegram({
-	token: '<PUT YOUR TOKEN HERE>'
-});
+const BOT_TOKEN = process.env.BOT_TOKEN
+if (!BOT_TOKEN) {
+    console.log('Opps, you need to define your BOT_TOKEN')
+}
+
+const api = new TG({
+    token: BOT_TOKEN
+})
 
 api.getMe()
-.then(function(data)
-{
-    console.log(data);
-})
-.catch(function(err)
-{
-	console.log(err);
-});
+.then(console.log)
+.catch(console.err)

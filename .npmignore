@@ -1,3 +1,4 @@
+*.gif
 .DS_Store
 node_modules
 *.log
@@ -5,3 +6,4 @@ test-old
 .env
 package-lock.json
 coverage
+.github

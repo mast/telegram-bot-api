@@ -29,11 +29,17 @@ describe('Provider => GetUpdate', () => {
         expect(mp._timeout).toBe(5)
     })
 
-    test('start() without api', () => {
+    test('start() without api', (done) => {
         const mp = new TG.GetUpdateMessageProvider()
-        expect(() => {
-            mp.start()
-        }).toThrowError('[telegram-bot-api]: Message provider is started without api')
+        mp.start()
+        .then(() => {
+            expect('Should not be called').not.toBeDefined()
+            done()
+        })
+        .catch(err => {
+            expect(err.toString()).toBe('Error: Message provider is started without api')
+            done()
+        })
     })
 
     test('start()', (done) => {
@@ -41,13 +47,15 @@ describe('Provider => GetUpdate', () => {
         const api = {_call: jest.fn()}
         api._call.mockResolvedValue('true')
         mp.start(api)
-
-        setImmediate(() => {
+        .then(() => {
             expect(mp._eventLoop).toBeDefined()
             expect(api._call).toHaveBeenLastCalledWith('deleteWebhook')
             expect(setTimeout).toHaveBeenCalledTimes(1)
             expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 100)
             done()
+        })
+        .catch((err) => {
+            expect('Should not be called').not.toBeDefined()
         })
     })
 
@@ -56,12 +64,21 @@ describe('Provider => GetUpdate', () => {
         const api = {_call: jest.fn()}
         api._call.mockResolvedValue('true')
         mp.start(api)
-        mp.stop()
-
-        expect(clearTimeout).toHaveBeenCalledTimes(1)
-        expect(mp._eventLoop).not.toBeDefined()
-        expect(mp._api).not.toBeDefined()
-        done()
+        .then(() => {
+            mp.stop()
+            .then(() => {
+                expect(clearTimeout).toHaveBeenCalledTimes(1)
+                expect(mp._eventLoop).not.toBeDefined()
+                expect(mp._api).not.toBeDefined()
+                done()
+            })
+            .catch((err) => {
+                expect('Should not be called').not.toBeDefined()
+            })
+        })
+        .catch((err) => {
+            expect('Should not be called').not.toBeDefined()
+        })
     })
 
     test('_getUpdates() no api', () => {
