@@ -145,7 +145,7 @@ In this case, don't pass `publicKey` and `privateKey` parameters to message prov
 
 You will have to set `url` parameter though to the one which is configured on your reverse proxy. Library will use it to send to Telegram in setWebhook method (this is done internally after you call `api.start()` method).
 
-## Deal with HTTPs inside provider
+### Deal with HTTPs inside provider
 
 If you don't want to use reverse proxy or deal with domain names, you can configure HTTPs to be used inside the library. Also Telegram works pretty well with self-signed certificates, so you don't even have to worry about purchasing your certificate.
 
