@@ -233,6 +233,7 @@ which is easy to implement thought.
 * By default library is not dealing with received messages anymore. You need to configure message provider and call `api.start()`
 * API object doesn't emit anything else, except `update` event, containing whole object https://core.telegram.org/bots/api#update. You should react on different types of events by yourself.
 * Some API calls were performing `JSON.stringify()` encoding on some specific parameters in prev library versions, which lead to confusion. In 2.0 library is performing encoding automatically when needed, you should just pass normal JS object as a parameter of API call.
+* Methods that accept file uploads (like send photo or video) are now expecting `stream.Readable` fields instead of path to file (see example)
 
 # License
 
