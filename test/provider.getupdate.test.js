@@ -110,7 +110,7 @@ describe('Provider => GetUpdate', () => {
                 limit: undefined,
                 offset: 0,
                 timeout: 60
-            })
+            }, {timeout: 61000})
 
             expect(mp._offset).toBe(0)
             expect(setTimeout).toHaveBeenCalledTimes(2)
@@ -146,7 +146,7 @@ describe('Provider => GetUpdate', () => {
                 limit: undefined,
                 offset: 0,
                 timeout: 60
-            })
+            }, {timeout: 61000})
 
             expect(mp._offset).toBe(2)
             expect(api._onUpdate).toHaveBeenLastCalledWith({update_id: 1, data: {}})
@@ -169,7 +169,7 @@ describe('Provider => GetUpdate', () => {
                     limit: undefined,
                     offset: 2,
                     timeout: 60
-                })
+                }, {timeout: 61000})
 
                 expect(mp._offset).toBe(51)
                 expect(setTimeout).toHaveBeenCalledTimes(3)
@@ -209,7 +209,7 @@ describe('Provider => GetUpdate', () => {
                 limit: undefined,
                 offset: 0,
                 timeout: 60
-            })
+            }, {timeout: 61000})
 
             expect(mp._offset).toBe(3)
             expect(api._onUpdate.mock.calls.length).toBe(2)
@@ -244,7 +244,7 @@ describe('Provider => GetUpdate', () => {
                 limit: undefined,
                 offset: 0,
                 timeout: 60
-            })
+            }, {timeout: 61000})
 
             expect(mp._offset).toBe(0)
             expect(setTimeout).toHaveBeenCalledTimes(2)
@@ -277,7 +277,7 @@ describe('Provider => GetUpdate', () => {
                 limit: undefined,
                 offset: 0,
                 timeout: 60
-            })
+            }, {timeout: 61000})
 
             expect(mp._offset).toBe(0)
             expect(setTimeout).toHaveBeenCalledTimes(2)

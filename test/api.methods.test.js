@@ -112,7 +112,8 @@ describe('Api methods', () => {
                     obj: "{\"a\":1}",
                     file: this.file
                 },
-                uri: 'https://api.telegram.org/bot123/' + method
+                uri: 'https://api.telegram.org/bot123/' + method,
+                timeout: 2000
             }
 
             this.api[method](callParams)
